@@ -11,6 +11,7 @@ const {
   authenticate,
   authenticate2,
   findUserByToken,
+  findUserWithToken,
 } = require('./db');
 const express = require('express');
 const app = express();
@@ -23,10 +24,12 @@ app.use('/assets', express.static(path.join(__dirname, '../client/dist/assets'))
 
 const isLoggedIn = async(req, res, next)=> {
   try {
+    console.log('checking login...')
     req.user = await findUserByToken(req.headers.authorization);
     next();
   }
   catch(ex){
+    console.log('exception caught inLoggedIn')
     next(ex);
   }
 };

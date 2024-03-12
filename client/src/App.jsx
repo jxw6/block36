@@ -77,6 +77,8 @@ function App() {
     }
   }, [auth]);
 
+
+
   const login = async(credentials)=> {
     const response = await fetch('/api/auth/login', {
       method: 'POST',
@@ -101,7 +103,8 @@ function App() {
       method: 'POST',
       body: JSON.stringify({ product_id }),
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        authorization: window.localStorage.getItem('token')
       }
     });
 
@@ -117,6 +120,9 @@ function App() {
   const removeFavorite = async(id)=> {
     const response = await fetch(`/api/users/${auth.id}/favorites/${id}`, {
       method: 'DELETE',
+      headers: {
+        authorization: window.localStorage.getItem('token')
+      }
     });
 
     if(response.ok){
